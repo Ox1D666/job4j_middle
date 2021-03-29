@@ -5,6 +5,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ru.job4j.hql.model.Base;
+import ru.job4j.hql.model.Candidate;
+import ru.job4j.hql.model.Vacancy;
 
 public class HbmRun {
     public static void main(String[] args) {
@@ -13,25 +16,29 @@ public class HbmRun {
             SessionFactory sf = new MetadataSources(builder).buildMetadata().buildSessionFactory();
             Session session = sf.openSession();
             session.beginTransaction();
-            /*Candidate candidate1 = new Candidate("Alex", 1, 50000);
-            Candidate candidate2 = new Candidate("Nikolay", 2, 100000);
-            Candidate candidate3 = new Candidate("Nikita", 3, 150000);
-            session.save(candidate1);
-            session.save(candidate2);
-            session.save(candidate3);*/
 
-            session.createQuery("from Candidate ").list().forEach(System.out::println);
+//            Vacancy vacancy1 = new Vacancy("Developer");
+//            Vacancy vacancy2 = new Vacancy("Administrator");
+//            session.save(vacancy1);
+//            session.save(vacancy2);
 
-            System.out.println((session.createQuery("from Candidate c where c.id = 2")).uniqueResult());
+//            Base base = new Base();
+//            base.addVacancy(vacancy1);
+//            base.addVacancy(vacancy2);
+//            session.save(base);
 
-            session.createQuery("from Candidate c where c.name = :name").setParameter("name", "Alex")
-                    .list().forEach(System.out::println);
+//            Candidate candidate1 = new Candidate("Alex", 1, 50000);
+//            Candidate candidate2 = new Candidate("Nikolay", 2, 100000);
+//            candidate1.setVacancyBase(session.get(Base.class, 1));
+//            candidate2.setVacancyBase(session.get(Base.class, 1));
+//            session.save(candidate1);
+//            session.save(candidate2);
 
-            session.createQuery("delete from Candidate where id = 3").executeUpdate();
 
-            session.createQuery("update Candidate c set c.name = :name, c.experience = :exp, c.salary = :sal where id = 2")
-                    .setParameter("name", "Bob").setParameter("exp", 2).setParameter("sal", 75000).executeUpdate();
-
+            System.out.println(session.createQuery("select distinct c from Candidate c " +
+                    "join fetch c.vacancyBase base " +
+                    "join fetch base.vacancies " +
+                    "where c.id = 1").uniqueResult());
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
