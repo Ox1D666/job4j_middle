@@ -19,9 +19,10 @@ public class HbmRun {
             session.save(candidate1);
             session.save(candidate2);
             session.save(candidate3);*/
+
             session.createQuery("from Candidate ").list().forEach(System.out::println);
 
-            session.createQuery("from Candidate c where c.id = 2").list().forEach(System.out::println);
+            System.out.println((session.createQuery("from Candidate c where c.id = 2")).uniqueResult());
 
             session.createQuery("from Candidate c where c.name = :name").setParameter("name", "Alex")
                     .list().forEach(System.out::println);
