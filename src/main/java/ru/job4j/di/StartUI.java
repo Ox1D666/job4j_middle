@@ -9,8 +9,8 @@ public class StartUI {
         this.consoleInput = consoleInput;
     }
 
-    public void input(String value) {
-        consoleInput.askStr(value);
+    public String input(String value) {
+        return  consoleInput.askStr(value);
     }
 
     public void add(String value) {
