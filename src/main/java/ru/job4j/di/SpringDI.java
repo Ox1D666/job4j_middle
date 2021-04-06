@@ -8,9 +8,10 @@ public class SpringDI {
         context.scan("ru.job4j.di");
         context.refresh();
 
-        StartUI ui = context.getBean(StartUI.class);
-        ui.add("Petr");
-        ui.add(ui.input("Enter name"));
-        ui.print();
+        Store store = context.getBean(Store.class);
+        store.add("Max");
+        store.getAll().forEach(System.out::println);
+        Store store2 = context.getBean(Store.class);
+        store2.getAll().forEach(System.out::println);
     }
 }
